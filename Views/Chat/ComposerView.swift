@@ -69,20 +69,8 @@ struct ComposerView: View {
                         .glassCircle(interactive: true)
                 }
             } else {
-                Button(action: send) {
-                    Image(systemName: "arrow.up")
-                        .font(.body.weight(.bold))
-                        .frame(width: 36, height: 36)
-                        .foregroundStyle(.white)
-                }
-                .if(true) { view in
-                    if #available(iOS 26, *) {
-                        view.glassEffect(Glass.regular.tint(.blue.opacity(0.5)).interactive(), in: .circle)
-                    } else {
-                        view.background(Color.blue.opacity(0.7), in: Circle())
-                    }
-                }
-                .transition(.scale.combined(with: .opacity))
+                SendButton(action: send)
+                    .transition(.scale.combined(with: .opacity))
             }
         }
         .padding(.horizontal, 10)
@@ -121,6 +109,19 @@ struct ComposerView: View {
             viewModel.sendMessage(appState: appState)
             text = ""
             isFocused = false
+        }
+    }
+}
+
+private struct SendButton: View {
+    let action: () -> Void
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: "arrow.up")
+                .font(.body.weight(.bold))
+                .frame(width: 36, height: 36)
+                .foregroundStyle(.white)
+                .glassCircle(tint: .blue, interactive: true)
         }
     }
 }

@@ -131,7 +131,7 @@ struct ProviderSettingsView: View {
                         saveSettings()
                         dismiss()
                     }
-                    .buttonStyle(.glassProminent)
+                    .buttonStyle(.deaiGlassProminent())
                     .tint(provider.type.brandColor)
                     .padding(.bottom, 20)
                 }

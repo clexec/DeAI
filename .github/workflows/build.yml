@@ -1,0 +1,84 @@
+name: Build DeAI IPA
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build & Archive
+    runs-on: macos-15
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 16.3
+        run: sudo xcode-select -s /Applications/Xcode_16.3.app/Contents/Developer
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate --spec project.yml
+
+      - name: Show scheme list
+        run: xcodebuild -list -project DeAI.xcodeproj
+
+      - name: Build (simulator — no signing needed)
+        run: |
+          xcodebuild \
+            -project DeAI.xcodeproj \
+            -scheme DeAI \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=latest' \
+            -configuration Release \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            ENABLE_BITCODE=NO \
+            clean build \
+            | xcpretty --color || (cat /tmp/build.log; exit 1)
+
+      - name: Archive for device (no signing)
+        run: |
+          xcodebuild \
+            -project DeAI.xcodeproj \
+            -scheme DeAI \
+            -sdk iphoneos \
+            -configuration Release \
+            -archivePath $RUNNER_TEMP/DeAI.xcarchive \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            ENABLE_BITCODE=NO \
+            archive \
+            | xcpretty --color
+
+      - name: Package unsigned IPA
+        run: |
+          APP_PATH=$(find $RUNNER_TEMP/DeAI.xcarchive -name "*.app" | head -1)
+          mkdir -p $RUNNER_TEMP/IPA/Payload
+          cp -r "$APP_PATH" $RUNNER_TEMP/IPA/Payload/
+          cd $RUNNER_TEMP/IPA
+          zip -qr $RUNNER_TEMP/DeAI-unsigned.ipa Payload
+          echo "IPA created: $(du -sh $RUNNER_TEMP/DeAI-unsigned.ipa)"
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DeAI-unsigned-ipa
+          path: ${{ runner.temp }}/DeAI-unsigned.ipa
+          retention-days: 30
+
+      - name: Upload xcarchive artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DeAI-xcarchive
+          path: ${{ runner.temp }}/DeAI.xcarchive
+          retention-days: 14

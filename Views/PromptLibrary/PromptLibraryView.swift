@@ -138,7 +138,7 @@ struct PromptLibraryView: View {
                     newPromptTitle = ""; newPromptContent = ""
                     isAddingPrompt = false
                 }
-                .buttonStyle(.glassProminent)
+                .buttonStyle(.deaiGlassProminent())
                 .disabled(newPromptTitle.isEmpty || newPromptContent.isEmpty)
                 .padding(.horizontal, 20).padding(.bottom, 34)
             }
@@ -212,7 +212,7 @@ private struct PromptRow: View {
                 .transition(.move(edge: .top).combined(with: .opacity))
             }
         }
-        .glassCard(cornerRadius: 16, padding: 0)
+        .glassCard(cornerRadius: 16)
         .clipped()
     }
 }

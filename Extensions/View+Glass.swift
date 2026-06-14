@@ -25,12 +25,17 @@ extension View {
     }
 
     @ViewBuilder
-    func glassCircle(interactive: Bool = true) -> some View {
+    func glassCircle(tint: Color? = nil, interactive: Bool = true) -> some View {
         if #available(iOS 26, *) {
-            let base: Glass = interactive ? Glass.regular.interactive() : .regular
+            var base: Glass = interactive ? Glass.regular.interactive() : .regular
+            if let tint { base = Glass.regular.tint(tint.opacity(0.5)).interactive() }
             self.glassEffect(base, in: .circle)
         } else {
-            self.background(.ultraThinMaterial, in: Circle())
+            if let tint {
+                self.background(tint.opacity(0.6), in: Circle())
+            } else {
+                self.background(.ultraThinMaterial, in: Circle())
+            }
         }
     }
 }

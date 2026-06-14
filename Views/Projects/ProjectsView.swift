@@ -84,7 +84,7 @@ struct ProjectsView: View {
                     .multilineTextAlignment(.center)
             }
             Button("Create Project") { showNewProject = true }
-                .buttonStyle(.glassProminent)
+                .buttonStyle(.deaiGlassProminent())
                 .tint(.blue)
         }
         .frame(maxWidth: .infinity)
@@ -177,7 +177,7 @@ private struct NewProjectSheet: View {
                     appState.projects.append(project)
                     dismiss()
                 }
-                .buttonStyle(.glassProminent)
+                .buttonStyle(.deaiGlassProminent())
                 .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 .padding(.horizontal, 20)
                 .padding(.bottom, 34)

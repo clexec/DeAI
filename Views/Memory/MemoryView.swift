@@ -102,7 +102,7 @@ struct MemoryView: View {
                 .foregroundStyle(.white.opacity(0.4))
                 .multilineTextAlignment(.center)
             Button("Add a memory") { isAddingMemory = true }
-                .buttonStyle(.glass)
+                .buttonStyle(.deaiGlass)
         }
         .frame(maxWidth: .infinity)
         .padding(.top, 80)
@@ -129,7 +129,7 @@ struct MemoryView: View {
                     newMemoryText = ""
                     isAddingMemory = false
                 }
-                .buttonStyle(.glassProminent)
+                .buttonStyle(.deaiGlassProminent())
                 .disabled(newMemoryText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 .padding(.horizontal, 20)
                 .padding(.bottom, 34)
@@ -160,7 +160,7 @@ struct MemoryView: View {
                     }
                     editingItem = nil
                 }
-                .buttonStyle(.glassProminent)
+                .buttonStyle(.deaiGlassProminent())
                 .padding(.horizontal, 20)
                 .padding(.bottom, 34)
             }

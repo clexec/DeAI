@@ -18,6 +18,7 @@ final class AppState {
     var favoriteItems: [FavoriteItem] = []
     var favoriteFolders: [FavoriteFolder] = []
     var downloads: [DownloadedContent] = []
+    var favoritePrompts: [FavoritePrompt] = []
 
     // Navigation
     var navigationPath: [AppPath] = []
