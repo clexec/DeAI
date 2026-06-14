@@ -21,8 +21,14 @@ jobs:
       - name: Show Xcode version
         run: xcodebuild -version
 
-      - name: List available simulators
-        run: xcrun simctl list devices available | head -30
+      - name: Show SDKs
+        run: xcodebuild -showsdks
+
+      - name: Show available destinations
+        run: |
+          xcodebuild -showdestinations \
+            -project DeAI.xcodeproj \
+            -scheme DeAI 2>&1 | head -60
 
       - name: Install XcodeGen
         run: brew install xcodegen
@@ -35,23 +41,20 @@ jobs:
 
       - name: Build (simulator — no signing needed)
         run: |
-          set -o pipefail
           xcodebuild \
             -project DeAI.xcodeproj \
             -scheme DeAI \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.5' \
             -configuration Release \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
             ENABLE_BITCODE=NO \
             clean build \
-            2>&1 | tee /tmp/sim-build.log | xcpretty --color
+            2>&1 | tee /tmp/sim-build.log | tail -100
 
       - name: Archive for device (no signing)
         run: |
-          set -o pipefail
           xcodebuild \
             -project DeAI.xcodeproj \
             -scheme DeAI \
@@ -62,9 +65,8 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
             ENABLE_BITCODE=NO \
-            GENERATE_IPA_FILE=NO \
             archive \
-            2>&1 | tee /tmp/archive-build.log | xcpretty --color
+            2>&1 | tee /tmp/archive-build.log | tail -100
 
       - name: Verify archive exists
         run: |
