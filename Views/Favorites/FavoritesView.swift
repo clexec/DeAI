@@ -62,7 +62,7 @@ struct FavoritesView: View {
             }
         }
         .ignoresSafeArea()
-        .toolbarVisibility(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .navigationBar)
     }
 
     private var emptyState: some View {

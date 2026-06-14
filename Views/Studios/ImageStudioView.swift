@@ -34,32 +34,13 @@ struct ImageStudioView: View {
                 .padding(.top, 16)
 
                 // Tab switcher: Generate / Edit / Gallery
-                if #available(iOS 26, *) {
-                    GlassEffectContainer(spacing: 4) {
-                        HStack(spacing: 4) {
-                            ForEach(["Generate", "Edit", "Gallery"].indices, id: \.self) { i in
-                                Button(["Generate", "Edit", "Gallery"][i]) {
-                                    withAnimation(.smooth) { selectedTab = i }
-                                }
-                                .font(.subheadline.weight(.medium))
-                                .foregroundStyle(selectedTab == i ? .white : .white.opacity(0.5))
-                                .padding(.horizontal, 18).padding(.vertical, 9)
-                                .glassEffect(selectedTab == i ? .regular.tint(.purple.opacity(0.4)).interactive() : .regular.interactive(), in: .capsule)
-                            }
-                        }
-                        .padding(4)
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 12)
-                } else {
-                    Picker("", selection: $selectedTab) {
-                        Text("Generate").tag(0)
-                        Text("Edit").tag(1)
-                        Text("Gallery").tag(2)
-                    }
-                    .pickerStyle(.segmented)
-                    .padding(.horizontal, 20).padding(.top, 12)
+                Picker("", selection: $selectedTab) {
+                    Text("Generate").tag(0)
+                    Text("Edit").tag(1)
+                    Text("Gallery").tag(2)
                 }
+                .pickerStyle(.segmented)
+                .padding(.horizontal, 20).padding(.top, 12)
 
                 ScrollView {
                     VStack(spacing: 16) {
@@ -76,7 +57,7 @@ struct ImageStudioView: View {
             }
         }
         .ignoresSafeArea()
-        .toolbarVisibility(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .navigationBar)
     }
 
     // MARK: - Generate Tab

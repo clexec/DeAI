@@ -94,7 +94,7 @@ struct SettingsView: View {
             }
         }
         .ignoresSafeArea()
-        .toolbarVisibility(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .navigationBar)
     }
 }
 

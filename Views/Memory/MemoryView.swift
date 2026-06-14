@@ -71,7 +71,7 @@ struct MemoryView: View {
             }
         }
         .ignoresSafeArea()
-        .toolbarVisibility(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .navigationBar)
         .sheet(isPresented: $isAddingMemory) { addMemorySheet }
         .sheet(item: $editingItem) { item in editMemorySheet(item: item) }
     }

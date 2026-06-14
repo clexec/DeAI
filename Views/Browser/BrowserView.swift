@@ -47,7 +47,7 @@ struct BrowserView: View {
             }
         }
         .ignoresSafeArea(edges: .bottom)
-        .toolbarVisibility(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .navigationBar)
         .sheet(isPresented: $showTabList) { tabListSheet }
     }
 

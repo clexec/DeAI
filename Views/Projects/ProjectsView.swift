@@ -37,7 +37,7 @@ struct ProjectsView: View {
             }
         }
         .ignoresSafeArea()
-        .toolbarVisibility(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .navigationBar)
         .sheet(isPresented: $showNewProject) {
             NewProjectSheet()
         }

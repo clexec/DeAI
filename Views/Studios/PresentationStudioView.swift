@@ -36,7 +36,7 @@ struct PresentationStudioView: View {
             }
         }
         .ignoresSafeArea()
-        .toolbarVisibility(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .navigationBar)
         .sheet(item: $selectedSlide) { slide in
             SlideEditorSheet(slide: slide)
         }

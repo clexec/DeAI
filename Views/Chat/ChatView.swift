@@ -25,7 +25,7 @@ struct ChatView: View {
                 .padding(.horizontal, 16)
                 .padding(.bottom, 4)
         }
-        .toolbarVisibility(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .navigationBar)
         .ignoresSafeArea(edges: .bottom)
     }
 
@@ -144,7 +144,7 @@ private struct ThinkingIndicator: View {
 // MARK: - Scroll offset tracking
 
 private struct ScrollOffsetKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
+    nonisolated(unsafe) static var defaultValue: CGFloat = 0
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
         value = nextValue()
     }

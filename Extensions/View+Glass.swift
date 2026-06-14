@@ -1,41 +1,21 @@
 import SwiftUI
 
-// MARK: - Glass effect with automatic iOS 26 / material fallback
+// MARK: - Glass effect with material fallback
 
 extension View {
-    @ViewBuilder
     func glassCard(cornerRadius: CGFloat = 20, tint: Color? = nil) -> some View {
-        if #available(iOS 26, *) {
-            let base: Glass = tint != nil ? .regular.tint(tint!.opacity(0.25)) : .regular
-            self.glassEffect(base, in: .rect(cornerRadius: cornerRadius))
-        } else {
-            self.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: cornerRadius))
-        }
+        self.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: cornerRadius))
     }
 
-    @ViewBuilder
     func glassCapsule(tint: Color? = nil, interactive: Bool = false) -> some View {
-        if #available(iOS 26, *) {
-            var base: Glass = tint != nil ? .regular.tint(tint!.opacity(0.3)) : .regular
-            if interactive { base = base.interactive() }
-            self.glassEffect(base, in: .capsule)
-        } else {
-            self.background(.ultraThinMaterial, in: Capsule())
-        }
+        self.background(.ultraThinMaterial, in: Capsule())
     }
 
-    @ViewBuilder
     func glassCircle(tint: Color? = nil, interactive: Bool = true) -> some View {
-        if #available(iOS 26, *) {
-            var base: Glass = interactive ? Glass.regular.interactive() : .regular
-            if let tint { base = Glass.regular.tint(tint.opacity(0.5)).interactive() }
-            self.glassEffect(base, in: .circle)
+        if let tint {
+            self.background(tint.opacity(0.6), in: Circle())
         } else {
-            if let tint {
-                self.background(tint.opacity(0.6), in: Circle())
-            } else {
-                self.background(.ultraThinMaterial, in: Circle())
-            }
+            self.background(.ultraThinMaterial, in: Circle())
         }
     }
 }

@@ -7,7 +7,7 @@ struct MainView: View {
         @Bindable var state = appState
         NavigationStack(path: $state.navigationPath) {
             HomeView()
-                .toolbarVisibility(.hidden, for: .navigationBar)
+                .toolbar(.hidden, for: .navigationBar)
                 .navigationDestination(for: AppPath.self) { path in
                     destinationView(for: path)
                 }

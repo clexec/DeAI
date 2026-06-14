@@ -140,7 +140,7 @@ struct ProviderSettingsView: View {
             }
         }
         .ignoresSafeArea()
-        .toolbarVisibility(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .navigationBar)
         .onAppear {
             apiKey = provider.apiKey
             baseURL = provider.baseURL

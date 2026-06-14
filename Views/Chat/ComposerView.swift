@@ -134,7 +134,7 @@ struct PlusMenuItem {
     let color: Color
     let action: (AppState) -> Void
 
-    static let all: [PlusMenuItem] = [
+    nonisolated(unsafe) static let all: [PlusMenuItem] = [
         PlusMenuItem(icon: "paperclip", label: "Attach File", color: .blue) { _ in },
         PlusMenuItem(icon: "photo", label: "Photo", color: .purple) { _ in },
         PlusMenuItem(icon: "camera", label: "Camera", color: .orange) { _ in },

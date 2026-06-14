@@ -106,7 +106,7 @@ struct PromptLibraryView: View {
             }
         }
         .ignoresSafeArea()
-        .toolbarVisibility(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .navigationBar)
         .sheet(isPresented: $isAddingPrompt) { addPromptSheet }
     }
 

@@ -108,7 +108,7 @@ struct SandboxView: View {
             }
         }
         .ignoresSafeArea(edges: .bottom)
-        .toolbarVisibility(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .navigationBar)
         .onAppear {
             code = starterCode[0]
         }

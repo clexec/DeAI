@@ -85,14 +85,8 @@ struct MessageBubble: View {
                 )
         } else {
             // AI: glass
-            if #available(iOS 26, *) {
-                RoundedRectangle(cornerRadius: 18)
-                    .fill(.clear)
-                    .glassEffect(.regular, in: .rect(cornerRadius: 18))
-            } else {
-                RoundedRectangle(cornerRadius: 18)
-                    .fill(.ultraThinMaterial)
-            }
+            RoundedRectangle(cornerRadius: 18)
+                .fill(.ultraThinMaterial)
         }
     }
 

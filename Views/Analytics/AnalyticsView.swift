@@ -158,7 +158,7 @@ struct AnalyticsView: View {
             }
         }
         .ignoresSafeArea()
-        .toolbarVisibility(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .navigationBar)
     }
 }
 

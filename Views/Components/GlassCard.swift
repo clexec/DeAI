@@ -66,27 +66,13 @@ struct GlassShapeModifier: ViewModifier {
     let tint: Color?
 
     func body(content: Content) -> some View {
-        if #available(iOS 26, *) {
-            let baseGlass: Glass = tint != nil
-                ? Glass.regular.tint(tint!.opacity(0.3)).interactive()
-                : Glass.regular.interactive()
-            switch shape {
-            case .capsule:
-                content.glassEffect(baseGlass, in: .capsule)
-            case .circle:
-                content.glassEffect(baseGlass, in: .circle)
-            case .rect(let r):
-                content.glassEffect(baseGlass, in: .rect(cornerRadius: r))
-            }
-        } else {
-            switch shape {
-            case .capsule:
-                content.background(.ultraThinMaterial, in: Capsule())
-            case .circle:
-                content.background(.ultraThinMaterial, in: Circle())
-            case .rect(let r):
-                content.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: r))
-            }
+        switch shape {
+        case .capsule:
+            content.background(.ultraThinMaterial, in: Capsule())
+        case .circle:
+            content.background(.ultraThinMaterial, in: Circle())
+        case .rect(let r):
+            content.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: r))
         }
     }
 }

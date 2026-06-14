@@ -44,7 +44,7 @@ struct DocumentStudioView: View {
             }
         }
         .ignoresSafeArea()
-        .toolbarVisibility(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .navigationBar)
     }
 
     private var generateForm: some View {

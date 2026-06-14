@@ -65,67 +65,29 @@ struct HomeView: View {
 
     @ViewBuilder
     private var chatSettingsCapsule: some View {
-        if #available(iOS 26, *) {
-            GlassEffectContainer(spacing: 0) {
-                HStack(spacing: 0) {
-                    Button {
-                        showChats = true
-                    } label: {
-                        HStack(spacing: 6) {
-                            Image(systemName: "bubble.left.and.bubble.right")
-                            Text("Chats")
-                                .font(.subheadline.weight(.medium))
-                        }
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 9)
-                        .foregroundStyle(.white)
-                    }
-                    .glassEffect(.regular.interactive(), in: .capsule)
-
-                    Rectangle()
-                        .fill(.white.opacity(0.15))
-                        .frame(width: 1, height: 18)
-
-                    Button {
-                        appState.navigationPath.append(.settings)
-                    } label: {
-                        HStack(spacing: 6) {
-                            Image(systemName: "gear")
-                            Text("Settings")
-                                .font(.subheadline.weight(.medium))
-                        }
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 9)
-                        .foregroundStyle(.white)
-                    }
-                    .glassEffect(.regular.interactive(), in: .capsule)
+        HStack(spacing: 0) {
+            Button {
+                showChats = true
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "bubble.left.and.bubble.right")
+                    Text("Chats").font(.subheadline.weight(.medium))
                 }
+                .padding(.horizontal, 14).padding(.vertical, 9)
             }
-        } else {
-            HStack(spacing: 0) {
-                Button {
-                    showChats = true
-                } label: {
-                    HStack(spacing: 6) {
-                        Image(systemName: "bubble.left.and.bubble.right")
-                        Text("Chats").font(.subheadline.weight(.medium))
-                    }
-                    .padding(.horizontal, 14).padding(.vertical, 9)
+            Rectangle().fill(.white.opacity(0.2)).frame(width: 1, height: 18)
+            Button {
+                appState.navigationPath.append(.settings)
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "gear")
+                    Text("Settings").font(.subheadline.weight(.medium))
                 }
-                Rectangle().fill(.white.opacity(0.2)).frame(width: 1, height: 18)
-                Button {
-                    appState.navigationPath.append(.settings)
-                } label: {
-                    HStack(spacing: 6) {
-                        Image(systemName: "gear")
-                        Text("Settings").font(.subheadline.weight(.medium))
-                    }
-                    .padding(.horizontal, 14).padding(.vertical, 9)
-                }
+                .padding(.horizontal, 14).padding(.vertical, 9)
             }
-            .foregroundStyle(.white)
-            .background(.ultraThinMaterial, in: Capsule())
         }
+        .foregroundStyle(.white)
+        .background(.ultraThinMaterial, in: Capsule())
     }
 
     // MARK: - Model Hero

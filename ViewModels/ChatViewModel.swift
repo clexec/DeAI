@@ -145,7 +145,7 @@ final class ChatViewModel {
     private func finalizeAgentResponse(prompt: String) {
         let summary = String(prompt.prefix(60))
         guard let idx = messages.indices.last else { return }
-        messages[idx].content = "I've completed your request: "\(summary)…"\n\nAll tasks finished successfully. Here's a comprehensive summary of what was accomplished."
+        messages[idx].content = "I've completed your request: \"\(summary)...\"\n\nAll tasks finished successfully. Here's a comprehensive summary of what was accomplished."
         messages[idx].agentTasks = agentTasks
         isLoading = false
         isAgentMode = false

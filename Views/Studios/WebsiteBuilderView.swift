@@ -43,7 +43,7 @@ struct WebsiteBuilderView: View {
             }
         }
         .ignoresSafeArea()
-        .toolbarVisibility(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .navigationBar)
     }
 
     private var buildForm: some View {
@@ -119,36 +119,13 @@ struct WebsiteBuilderView: View {
     private var previewPanel: some View {
         VStack(spacing: 12) {
             // Device switcher
-            if #available(iOS 26, *) {
-                GlassEffectContainer(spacing: 4) {
-                    HStack(spacing: 4) {
-                        ForEach(
-                            [(0, "iphone", "Mobile"), (1, "ipad", "Tablet"), (2, "macbook", "Desktop")],
-                            id: \.0
-                        ) { tag, icon, label in
-                            Button {
-                                withAnimation(.smooth) { previewDevice = tag }
-                            } label: {
-                                Label(label, systemImage: icon)
-                                    .font(.subheadline.weight(.medium))
-                                    .foregroundStyle(previewDevice == tag ? .white : .white.opacity(0.5))
-                                    .padding(.horizontal, 14).padding(.vertical, 9)
-                            }
-                            .glassEffect(previewDevice == tag ? .regular.tint(.cyan.opacity(0.4)).interactive() : .regular.interactive(), in: .capsule)
-                        }
-                    }
-                    .padding(4)
-                }
-                .padding(.horizontal, 20)
-            } else {
-                Picker("Device", selection: $previewDevice) {
-                    Text("Mobile").tag(0)
-                    Text("Tablet").tag(1)
-                    Text("Desktop").tag(2)
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal, 20)
+            Picker("Device", selection: $previewDevice) {
+                Text("Mobile").tag(0)
+                Text("Tablet").tag(1)
+                Text("Desktop").tag(2)
             }
+            .pickerStyle(.segmented)
+            .padding(.horizontal, 20)
 
             // Preview
             WebPreview(html: generatedHTML, device: previewDevice)

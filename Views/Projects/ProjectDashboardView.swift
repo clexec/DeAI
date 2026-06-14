@@ -18,38 +18,14 @@ struct ProjectDashboardView: View {
                 projectHeader
 
                 // Tab selector
-                if #available(iOS 26, *) {
-                    GlassEffectContainer(spacing: 4) {
-                        HStack(spacing: 4) {
-                            ForEach(["Chats", "Files", "Memory", "Settings"].indices, id: \.self) { i in
-                                Button(["Chats", "Files", "Memory", "Settings"][i]) {
-                                    withAnimation(.smooth) { selectedTab = i }
-                                }
-                                .font(.subheadline.weight(.medium))
-                                .padding(.horizontal, 16).padding(.vertical, 8)
-                                .foregroundStyle(selectedTab == i ? .white : .white.opacity(0.5))
-                                .glassEffect(
-                                    selectedTab == i
-                                    ? .regular.tint(project.displayColor.opacity(0.4)).interactive()
-                                    : .regular.interactive(),
-                                    in: .capsule
-                                )
-                            }
-                        }
-                        .padding(4)
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 12)
-                } else {
-                    Picker("", selection: $selectedTab) {
-                        Text("Chats").tag(0)
-                        Text("Files").tag(1)
-                        Text("Memory").tag(2)
-                        Text("Settings").tag(3)
-                    }
-                    .pickerStyle(.segmented)
-                    .padding(.horizontal, 20).padding(.top, 12)
+                Picker("", selection: $selectedTab) {
+                    Text("Chats").tag(0)
+                    Text("Files").tag(1)
+                    Text("Memory").tag(2)
+                    Text("Settings").tag(3)
                 }
+                .pickerStyle(.segmented)
+                .padding(.horizontal, 20).padding(.top, 12)
 
                 // Content
                 ScrollView {
@@ -68,7 +44,7 @@ struct ProjectDashboardView: View {
             }
         }
         .ignoresSafeArea()
-        .toolbarVisibility(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .navigationBar)
     }
 
     // MARK: - Header

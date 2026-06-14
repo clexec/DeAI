@@ -37,7 +37,7 @@ struct AppBuilderView: View {
             }
         }
         .ignoresSafeArea()
-        .toolbarVisibility(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .navigationBar)
         .sheet(item: $selectedScreen) { screen in
             ScreenDetailSheet(screen: screen)
         }
@@ -259,7 +259,7 @@ private struct ScreenDetailSheet: View {
                 // Screen wireframe
                 RoundedRectangle(cornerRadius: 16)
                     .fill(Color(red: 0.08, green: 0.08, blue: 0.16))
-                    .frame(maxWidth: 280, height: 380)
+                    .frame(width: 280, height: 380)
                     .overlay(
                         VStack(spacing: 12) {
                             Image(systemName: screen.icon)
