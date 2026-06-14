@@ -140,6 +140,14 @@ struct WebsiteBuilderView: View {
                     .padding(4)
                 }
                 .padding(.horizontal, 20)
+            } else {
+                Picker("Device", selection: $previewDevice) {
+                    Text("Mobile").tag(0)
+                    Text("Tablet").tag(1)
+                    Text("Desktop").tag(2)
+                }
+                .pickerStyle(.segmented)
+                .padding(.horizontal, 20)
             }
 
             // Preview
