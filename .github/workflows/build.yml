@@ -40,7 +40,7 @@ jobs:
             -project DeAI.xcodeproj \
             -scheme DeAI \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.5' \
             -configuration Release \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
@@ -56,13 +56,13 @@ jobs:
             -project DeAI.xcodeproj \
             -scheme DeAI \
             -sdk iphoneos \
-            -destination 'generic/platform=iOS' \
             -configuration Release \
             -archivePath $RUNNER_TEMP/DeAI.xcarchive \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
             ENABLE_BITCODE=NO \
+            GENERATE_IPA_FILE=NO \
             archive \
             2>&1 | tee /tmp/archive-build.log | xcpretty --color
 
