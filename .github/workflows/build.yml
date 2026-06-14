@@ -21,44 +21,36 @@ jobs:
       - name: Show Xcode version
         run: xcodebuild -version
 
-      - name: Show SDKs
-        run: xcodebuild -showsdks
-
-      - name: Show available destinations
-        run: |
-          xcodebuild -showdestinations \
-            -project DeAI.xcodeproj \
-            -scheme DeAI 2>&1 | head -60
-
       - name: Install XcodeGen
         run: brew install xcodegen
 
       - name: Generate Xcode project
         run: xcodegen generate --spec project.yml
 
-      - name: Show scheme list
-        run: xcodebuild -list -project DeAI.xcodeproj
-
-      - name: Build (simulator — no signing needed)
+      - name: Build (simulator — verify compilation)
         run: |
+          set -o pipefail
           xcodebuild \
             -project DeAI.xcodeproj \
             -scheme DeAI \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.5' \
             -configuration Release \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
             ENABLE_BITCODE=NO \
-            clean build \
-            2>&1 | tee /tmp/sim-build.log | tail -100
+            build \
+            2>&1 | tee /tmp/sim-build.log | tail -50
 
       - name: Archive for device (no signing)
         run: |
+          set -o pipefail
           xcodebuild \
             -project DeAI.xcodeproj \
             -scheme DeAI \
             -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
             -configuration Release \
             -archivePath $RUNNER_TEMP/DeAI.xcarchive \
             CODE_SIGN_IDENTITY="" \
@@ -66,28 +58,26 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             ENABLE_BITCODE=NO \
             archive \
-            2>&1 | tee /tmp/archive-build.log | tail -100
+            2>&1 | tee /tmp/archive-build.log | tail -50
 
-      - name: Verify archive exists
+      - name: Verify archive and package IPA
         run: |
           if [ ! -d "$RUNNER_TEMP/DeAI.xcarchive" ]; then
             echo "::error::Archive not found at $RUNNER_TEMP/DeAI.xcarchive"
-            echo "=== Archive build log ==="
-            cat /tmp/archive-build.log
+            echo "=== Last 200 lines of archive log ==="
+            tail -200 /tmp/archive-build.log
             exit 1
           fi
-          echo "Archive found: $RUNNER_TEMP/DeAI.xcarchive"
+          echo "Archive found!"
           ls -la "$RUNNER_TEMP/DeAI.xcarchive/"
 
-      - name: Package unsigned IPA
-        run: |
-          APP_PATH=$(find $RUNNER_TEMP/DeAI.xcarchive/Products/Applications -name "*.app" | head -1)
+          APP_PATH=$(find "$RUNNER_TEMP/DeAI.xcarchive/Products/Applications" -name "*.app" | head -1)
           if [ -z "$APP_PATH" ]; then
-            APP_PATH=$(find $RUNNER_TEMP/DeAI.xcarchive -name "*.app" -path "*/Applications/*" | head -1)
+            APP_PATH=$(find "$RUNNER_TEMP/DeAI.xcarchive" -name "*.app" -path "*/Applications/*" | head -1)
           fi
           if [ -z "$APP_PATH" ]; then
             echo "::error::No .app bundle found in archive"
-            find $RUNNER_TEMP/DeAI.xcarchive -type d | head -30
+            find "$RUNNER_TEMP/DeAI.xcarchive" -type d | head -30
             exit 1
           fi
           echo "App bundle: $APP_PATH"
@@ -96,8 +86,8 @@ jobs:
           cd $RUNNER_TEMP/IPA
           zip -qr $RUNNER_TEMP/DeAI-unsigned.ipa Payload
           echo "IPA created: $(du -sh $RUNNER_TEMP/DeAI-unsigned.ipa)"
-          echo "IPA contents:"
-          unzip -l $RUNNER_TEMP/DeAI-unsigned.ipa | head -20
+          echo "=== IPA contents ==="
+          unzip -l $RUNNER_TEMP/DeAI-unsigned.ipa | head -30
 
       - name: Upload IPA artifact
         uses: actions/upload-artifact@v4
