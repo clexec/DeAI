@@ -11,6 +11,7 @@ extension View {
         self.background(.ultraThinMaterial, in: Capsule())
     }
 
+    @ViewBuilder
     func glassCircle(tint: Color? = nil, interactive: Bool = true) -> some View {
         if let tint {
             self.background(tint.opacity(0.6), in: Circle())
